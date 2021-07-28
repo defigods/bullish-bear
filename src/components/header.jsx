@@ -6,14 +6,19 @@ import {
   usePrice,
   mintNFTs,
 } from "../data/contract";
+import { useRefresh } from "../data/utils";
+import { Countdown } from "./counter";
 import { MintDialog } from "./minting";
 
+const DEADLINE = new Date(2021, 7);
+
 export const Header = (props) => {
+  const refresh = useRefresh();
   const account = useAccount();
   const price = usePrice();
   const totalSupply = useTotalSupply();
 
-  const [onSale, setSale] = useState(true);
+  const [onSale, setSale] = useState(false);
   const [isLoading, setLoading] = useState(true);
   const [isMinting, setMinting] = useState(false);
   const [isConfirming, setConfirming] = useState(false);
@@ -31,6 +36,10 @@ export const Header = (props) => {
   useEffect(() => {
     if (price.length > 0 && totalSupply.length > 0) setLoading(false);
   }, [price, totalSupply, account]);
+
+  useEffect(() => {
+    if (DEADLINE <= Date.now()) setSale(true);
+  }, [refresh]);
 
   return (
     <div id="header">
@@ -77,7 +86,7 @@ export const Header = (props) => {
                   </a>
                 </div>
               ) : (
-                <div />
+                <Countdown deadline={DEADLINE} />
               )}
             </div>
           </div>

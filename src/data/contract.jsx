@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Web3 from "web3";
 import BigNumber from "bignumber.js";
 import tokenAbi from "./token.json";
+import { useRefresh } from "./utils";
 
 const web3 = new Web3(window.ethereum);
 const tokenContract = new web3.eth.Contract(
@@ -28,27 +29,33 @@ export const useAccount = () => {
 };
 
 export const useTotalSupply = () => {
+  const refresh = useRefresh();
   const [totalSupply, setTotalSupply] = useState("");
 
-  const fetch = async () => {
-    const supply = await tokenContract.methods.totalSupply().call();
-    setTotalSupply(supply);
-  };
-  fetch();
+  useEffect(() => {
+    const fetch = async () => {
+      const supply = await tokenContract.methods.totalSupply().call();
+      setTotalSupply(supply);
+    };
+    fetch();
+  }, [refresh]);
 
   return totalSupply;
 };
 
 export const usePrice = () => {
+  const refresh = useRefresh();
   const [price, setPrice] = useState("");
 
-  const fetch = async () => {
-    const price = await tokenContract.methods.price().call();
-    setPrice(
-      new BigNumber(price).dividedBy(new BigNumber(10).pow(18)).toString()
-    );
-  };
-  fetch();
+  useEffect(() => {
+    const fetch = async () => {
+      const price = await tokenContract.methods.price().call();
+      setPrice(
+        new BigNumber(price).dividedBy(new BigNumber(10).pow(18)).toString()
+      );
+    };
+    fetch();
+  }, [refresh]);
 
   return price;
 };

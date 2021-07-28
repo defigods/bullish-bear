@@ -1,42 +1,49 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
+import { useState, useEffect } from "react";
+import { useRefresh } from "../data/utils";
 
-export const CounterInput = ({ count, setCount, max }) => {
-  const handleInput = ({ target: { value } }) => {
-    let text = value.replace(/[^0-9.]/g, "").trim();
-    if (text.length === 0) setCount(text);
-    else setCount(Math.max(0, Math.min(max, parseInt(text))).toString());
-  };
+export const Countdown = ({ deadline }) => {
+  const refresh = useRefresh();
 
-  const handleKey = (e) => {
-    if (e.keyCode === 38) increase();
-    else if (e.keyCode === 40) decrease();
-    e.stopPropagation();
-    e.preventDefault();
-  };
+  const [days, setDays] = useState(0);
+  const [hours, setHours] = useState(0);
+  const [minutes, setMinutes] = useState(0);
 
-  const increase = () => {
-    if (count.length === 0) setCount("1");
-    else setCount(Math.min(parseInt(count) + 1, max).toString());
-  };
+  useEffect(() => {
+    let diff = (deadline - Date.now()) / 1000;
+    setDays(Math.floor(diff / 86400));
+    diff %= 86400;
+    setHours(Math.floor(diff / 3600));
+    diff %= 3600;
+    setMinutes(Math.ceil(diff / 60));
+  }, [deadline, refresh]);
 
-  const decrease = () => {
-    if (count.length === 0) setCount("0");
-    else setCount(Math.max(parseInt(count) - 1, 1).toString());
+  const addLeadingZeros = (value) => {
+    value = String(value);
+    while (value.length < 2) value = "0" + value;
+    return value;
   };
 
   return (
-    <div id="counter">
-      <div className="input">
-        <input onChange={handleInput} value={count} onKeyDown={handleKey} />
-        <div>
-          <a onClick={increase} className="btn btn-control">
-            +
-          </a>
-          <a onClick={decrease} className="btn btn-control down">
-            -
-          </a>
-        </div>
-      </div>
+    <div id="countdown" className="text-center">
+      <span className="col">
+        <span className="col-element">
+          <p className="number">{addLeadingZeros(days)}</p>
+          <p className="text">{days === 1 ? "Day" : "Days"}</p>
+        </span>
+      </span>
+      <span className="col">
+        <span className="col-element">
+          <p className="number">{addLeadingZeros(hours)}</p>
+          <p className="text">{hours === 1 ? "Hour" : "Hours"}</p>
+        </span>
+      </span>
+      <span className="col">
+        <span className="col-element">
+          <p className="number">{addLeadingZeros(minutes)}</p>
+          <p className="text">{minutes === 1 ? "Minute" : "Minutes"}</p>
+        </span>
+      </span>
+      <p className="until">until launch</p>
     </div>
   );
 };

@@ -1,9 +1,13 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto+Mono");
+@import url("https://fonts.googleapis.com/css?family=Alef");
+
 body,
 html {
   color: white;
   background: black;
   width: 100% !important;
   height: 100% !important;
+  font-family: "Roboto Mono", sans-serif !important;
 }
 ul,
 ol {
@@ -170,6 +174,35 @@ a:focus,
   color: white;
 }
 
+/* Countdown Section */
+#countdown {
+  margin: 10px auto;
+  padding-bottom: 20px;
+}
+#countdown .col {
+  display: inline-block;
+}
+#countdown .col-element {
+  display: inline-block;
+  margin: 0 20px;
+  display: flex;
+  flex-direction: column;
+}
+#countdown .col-element .number {
+  font-size: 60px;
+  font-weight: 700;
+}
+#countdown .col-element .text {
+  text-transform: uppercase;
+  font-size: 20px;
+  font-weight: 300;
+}
+#countdown .until {
+  font-size: 30px;
+  font-weight: 700;
+  margin-top: 20px;
+}
+
 /* Mint Section */
 .dialog {
   position: absolute;
@@ -242,7 +275,6 @@ a:focus,
   flex-direction: row;
 }
 #counter input {
-  font-family: "Roboto Mono";
   width: 150px;
   height: 50px;
   padding: 3px 10px;
@@ -280,7 +312,8 @@ input:focus {
   margin: 50px 0;
 }
 #about .content {
-  font-size: 24px;
+  font-family: "Alef";
+  font-size: 23px;
   font-weight: 500;
 }
 #about .carousel {

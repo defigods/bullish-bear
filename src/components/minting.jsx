@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useState } from "react";
 import Dialog from "react-modal";
-import { CounterInput } from "./counter";
+import { CustomInput } from "./customInput";
 
 export const MintDialog = (props) => {
   const [count, setCount] = useState("1");
@@ -18,7 +18,7 @@ export const MintDialog = (props) => {
           <p className="title text-center">
             How many Bears would you like to mint?
           </p>
-          <CounterInput count={count} setCount={setCount} max={props.max} />
+          <CustomInput count={count} setCount={setCount} max={props.max} />
           <a
             onClick={() => props.onMint(parseInt(count))}
             className={`btn btn-mint btn-lg page-scroll ${
