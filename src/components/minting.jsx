@@ -1,0 +1,34 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import { useState } from "react";
+import Dialog from "react-modal";
+import { CounterInput } from "./counter";
+
+export const MintDialog = (props) => {
+  const [count, setCount] = useState("1");
+
+  return (
+    <Dialog
+      isOpen
+      onRequestClose={props.handleClose}
+      className="dialog"
+      overlayClassName="overlay"
+    >
+      <div id="minting">
+        <div>
+          <p className="title text-center">
+            How many Bears would you like to mint?
+          </p>
+          <CounterInput count={count} setCount={setCount} max={props.max} />
+          <a
+            onClick={() => props.onMint(parseInt(count))}
+            className={`btn btn-mint btn-lg page-scroll ${
+              count.length > 0 ? "" : "disabled"
+            }`}
+          >
+            Checkout with Metamask
+          </a>
+        </div>
+      </div>
+    </Dialog>
+  );
+};

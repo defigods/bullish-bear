@@ -1,0 +1,8 @@
+@media screen and (max-width: 400px) {
+  #about,
+  #dividends,
+  #roadmap,
+  #footer {
+    width: 111%;
+  }
+}
