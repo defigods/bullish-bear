@@ -17,10 +17,13 @@ export const scroll = new SmoothScroll('a[href*="#"]', {
 export default () => (
   <RefreshContextProvider>
     <div>
-      <Navigation />
+      <Navigation data={jsonData.Navigation} />
       <Header data={jsonData.Header} />
       <About data={jsonData.About} />
-      <Dividends data={jsonData.Dividends} />
+      <Dividends
+        data={jsonData.Dividends}
+        discord={jsonData.Navigation.discord}
+      />
       <Roadmap data={jsonData.Roadmap} />
     </div>
   </RefreshContextProvider>

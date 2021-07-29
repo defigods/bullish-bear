@@ -11,7 +11,7 @@ import { useRefresh } from "../data/utils";
 import { Countdown } from "./counter";
 import { MintDialog } from "./minting";
 
-const DEADLINE = new Date(2021, 6);
+const DEADLINE = new Date(2021, 7, 4);
 const MAX_COUNT = 15;
 const indexes = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 let sets = [];
