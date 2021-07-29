@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useState, useEffect } from "react";
 import {
@@ -10,10 +11,15 @@ import { useRefresh } from "../data/utils";
 import { Countdown } from "./counter";
 import { MintDialog } from "./minting";
 
-const DEADLINE = new Date(2021, 7);
+const DEADLINE = new Date(2021, 6);
+const MAX_COUNT = 15;
+const indexes = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+let sets = [];
+let lastIndex;
+let count = 10;
 
 export const Header = (props) => {
-  const refresh = useRefresh();
+  const { fastRefresh, randomRefresh } = useRefresh();
   const account = useAccount();
   const price = usePrice();
   const totalSupply = useTotalSupply();
@@ -23,15 +29,8 @@ export const Header = (props) => {
   const [isMinting, setMinting] = useState(false);
   const [isConfirming, setConfirming] = useState(false);
 
-  const handleClose = () => setMinting(false);
-
-  const handleMint = () => setMinting(true);
-
-  const onMint = (count) => {
-    mintNFTs(account, count, price)
-      .then(() => setMinting(false))
-      .catch(() => setMinting(false));
-  };
+  // useEffect(() => {
+  // }, []);
 
   useEffect(() => {
     if (price.length > 0 && totalSupply.length > 0) setLoading(false);
@@ -39,7 +38,56 @@ export const Header = (props) => {
 
   useEffect(() => {
     if (DEADLINE <= Date.now()) setSale(true);
-  }, [refresh]);
+  }, [fastRefresh]);
+
+  useEffect(() => {
+    let index;
+    while (true) {
+      index = Math.floor(Math.random() * 9);
+      if (sets.length === 0 && index === lastIndex) continue;
+      if (!sets.includes(index)) {
+        sets.push(index);
+        break;
+      }
+    }
+    if (sets.length === 9) {
+      lastIndex = index;
+      sets = [];
+    }
+
+    const element =
+      document.getElementsByClassName("random")[0].childNodes[index];
+    element.classList.remove("fade-in");
+    element.classList.add("fade-out");
+    element.addEventListener("transitionend", function x() {
+      element.removeEventListener("transitionend", x);
+      element.src = `img/bears/${count}.png`;
+      element.classList.remove("fade-out");
+      element.classList.add("fade-in");
+    });
+    indexes[index] = count;
+    count++;
+    if (count > MAX_COUNT) count = 1;
+  }, [randomRefresh]);
+
+  const handleClose = () => setMinting(false);
+
+  const handleMint = () => setMinting(true);
+
+  const onMint = (count) => {
+    mintNFTs(account, count, price)
+      .on("transactionHash", () => {
+        setConfirming(true);
+        setMinting(false);
+      })
+      .on("receipt", () => {
+        setConfirming(false);
+      })
+      .on("error", () => {
+        setMinting(false);
+        setConfirming(false);
+      });
+  };
 
   return (
     <div id="header">

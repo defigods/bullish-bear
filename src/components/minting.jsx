@@ -11,6 +11,7 @@ export const MintDialog = (props) => {
       isOpen
       onRequestClose={props.handleClose}
       className="dialog"
+      bodyOpenClassName="dialog-body"
       overlayClassName="overlay"
     >
       <div id="minting">

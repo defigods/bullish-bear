@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useRefresh } from "../data/utils";
 
 export const Countdown = ({ deadline }) => {
-  const refresh = useRefresh();
+  const { fastRefresh } = useRefresh();
 
   const [days, setDays] = useState(0);
   const [hours, setHours] = useState(0);
@@ -15,7 +15,7 @@ export const Countdown = ({ deadline }) => {
     setHours(Math.floor(diff / 3600));
     diff %= 3600;
     setMinutes(Math.ceil(diff / 60));
-  }, [deadline, refresh]);
+  }, [deadline, fastRefresh]);
 
   const addLeadingZeros = (value) => {
     value = String(value);

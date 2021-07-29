@@ -17,6 +17,9 @@ ul,
 ol {
   padding: 0;
 }
+a {
+  cursor: pointer;
+}
 a,
 a:hover,
 a:active,
@@ -70,6 +73,9 @@ a:focus,
   flex-direction: row;
   align-items: center;
   justify-content: center;
+}
+#menu .social a {
+  margin: 0 5px;
 }
 #menu .social img {
   width: 40px;
@@ -156,6 +162,17 @@ a:focus,
 }
 #header .random img {
   margin: 10px 0;
+
+  -webkit-transition: opacity 1s ease-in-out;
+  -moz-transition: opacity 1s ease-in-out;
+  -o-transition: opacity 1s ease-in-out;
+  transition: opacity 1s ease-in-out;
+}
+.fade-in {
+  opacity: 1;
+}
+.fade-out {
+  opacity: 0;
 }
 #header .btn-mint {
   text-transform: uppercase;
@@ -225,6 +242,10 @@ a:focus,
     background: white;
     border-radius: 10px;
   }
+}
+.dialog-body {
+  position: fixed;
+  overflow-y: scroll;
 }
 .overlay {
   position: fixed;
@@ -300,6 +321,17 @@ input:focus {
 }
 #counter .down {
   border-top: none;
+}
+#counter .info {
+  position: absolute;
+  top: calc(50% - 20px);
+  left: calc(50% + 120px);
+  font-size: 24px;
+  font-weight: 700;
+}
+#counter .max {
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 /* About Section */

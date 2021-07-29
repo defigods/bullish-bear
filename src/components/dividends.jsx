@@ -16,7 +16,7 @@ export const Dividends = (props) => (
       <div className="container text-center">
         <p>
           Wait, join us on{" "}
-          <a href="/" alt="discord">
+          <a href={process.env.DISCORD_URL} alt="discord">
             discord
           </a>
         </p>

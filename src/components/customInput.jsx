@@ -8,10 +8,21 @@ export const CustomInput = ({ count, setCount, max }) => {
   };
 
   const handleKey = (e) => {
-    if (e.keyCode === 38) increase();
-    else if (e.keyCode === 40) decrease();
-    e.stopPropagation();
-    e.preventDefault();
+    if (e.keyCode === 38) {
+      increase();
+      e.stopPropagation();
+      e.preventDefault();
+    }
+    if (e.keyCode === 40) {
+      decrease();
+      e.stopPropagation();
+      e.preventDefault();
+    }
+  };
+
+  const handleWheel = (e) => {
+    if (e.deltaY < 0) increase();
+    else if (e.deltaY > 0) decrease();
   };
 
   const increase = () => {
@@ -27,7 +38,12 @@ export const CustomInput = ({ count, setCount, max }) => {
   return (
     <div id="counter">
       <div className="input">
-        <input onChange={handleInput} value={count} onKeyDown={handleKey} />
+        <input
+          onChange={handleInput}
+          value={count}
+          onKeyDown={handleKey}
+          onWheel={handleWheel}
+        />
         <div>
           <a onClick={increase} className="btn btn-control">
             +
@@ -37,6 +53,12 @@ export const CustomInput = ({ count, setCount, max }) => {
           </a>
         </div>
       </div>
+      <p className="info">
+        <a onClick={() => setCount(max.toString())} className="max">
+          Max
+        </a>{" "}
+        ({max})
+      </p>
     </div>
   );
 };

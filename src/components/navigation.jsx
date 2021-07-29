@@ -19,10 +19,10 @@ export const Navigation = (props) => (
       </div>
 
       <div className="social text-center">
-        <a href="/" alt="discord">
+        <a href={process.env.DISCORD_URL} alt="discord">
           <img src="img/discord.png" alt="discord" />
         </a>
-        <a href="/" alt="twitter">
+        <a href={process.env.TWITTER_URL} alt="twitter">
           <img src="img/twitter.png" alt="twitter" />
         </a>
       </div>

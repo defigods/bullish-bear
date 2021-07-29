@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
-require("typeface-roboto-mono");
 require("dotenv").config();
 
 ReactDOM.render(

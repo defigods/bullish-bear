@@ -29,7 +29,7 @@ export const useAccount = () => {
 };
 
 export const useTotalSupply = () => {
-  const refresh = useRefresh();
+  const { fastRefresh } = useRefresh();
   const [totalSupply, setTotalSupply] = useState("");
 
   useEffect(() => {
@@ -38,13 +38,13 @@ export const useTotalSupply = () => {
       setTotalSupply(supply);
     };
     fetch();
-  }, [refresh]);
+  }, [fastRefresh]);
 
   return totalSupply;
 };
 
 export const usePrice = () => {
-  const refresh = useRefresh();
+  const { fastRefresh } = useRefresh();
   const [price, setPrice] = useState("");
 
   useEffect(() => {
@@ -55,7 +55,7 @@ export const usePrice = () => {
       );
     };
     fetch();
-  }, [refresh]);
+  }, [fastRefresh]);
 
   return price;
 };
