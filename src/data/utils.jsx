@@ -1,21 +1,21 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { createContext, useContext, useState, useEffect } from "react";
 
+const TIMER_INTERVAL = 1000;
 const FAST_INTERVAL = 10000;
-const SLOW_INTERVAL = 60000;
 const RANDOM_INTERVAL = 2000;
 
-const RefreshContext = createContext({ slow: 0, fast: 0, random: 0 });
+const RefreshContext = createContext({ timer: 0, fast: 0, random: 0 });
 
 export const RefreshContextProvider = ({ children }) => {
-  const [slow, setSlow] = useState(0);
+  const [timer, setTimer] = useState(0);
   const [fast, setFast] = useState(0);
   const [random, setRandom] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(async () => {
-      setSlow((prev) => prev + 1);
-    }, SLOW_INTERVAL);
+      setTimer((prev) => prev + 1);
+    }, TIMER_INTERVAL);
     return () => clearInterval(interval);
   }, []);
 
@@ -34,13 +34,13 @@ export const RefreshContextProvider = ({ children }) => {
   }, []);
 
   return (
-    <RefreshContext.Provider value={{ slow, fast, random }}>
+    <RefreshContext.Provider value={{ timer, fast, random }}>
       {children}
     </RefreshContext.Provider>
   );
 };
 
 export const useRefresh = () => {
-  const { slow, fast, random } = useContext(RefreshContext);
-  return { slowRefresh: slow, fastRefresh: fast, randomRefresh: random };
+  const { timer, fast, random } = useContext(RefreshContext);
+  return { timerRefresh: timer, fastRefresh: fast, randomRefresh: random };
 };

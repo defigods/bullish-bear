@@ -11,7 +11,7 @@ import { useRefresh } from "../data/utils";
 import { Countdown } from "./counter";
 import { MintDialog } from "./minting";
 
-const DEADLINE = new Date(2021, 7, 4);
+const DEADLINE = new Date("2021-08-09T16:00:00.000-04:00");
 const MAX_COUNT = 15;
 const indexes = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 let sets = [];
@@ -28,9 +28,6 @@ export const Header = (props) => {
   const [isLoading, setLoading] = useState(true);
   const [isMinting, setMinting] = useState(false);
   const [isConfirming, setConfirming] = useState(false);
-
-  // useEffect(() => {
-  // }, []);
 
   useEffect(() => {
     if (price.length > 0 && totalSupply.length > 0) setLoading(false);

@@ -2,20 +2,23 @@ import { useState, useEffect } from "react";
 import { useRefresh } from "../data/utils";
 
 export const Countdown = ({ deadline }) => {
-  const { fastRefresh } = useRefresh();
+  const { timerRefresh } = useRefresh();
 
   const [days, setDays] = useState(0);
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
 
   useEffect(() => {
-    let diff = (deadline - Date.now()) / 1000;
+    let diff = Math.floor((deadline - Date.now()) / 1000);
     setDays(Math.floor(diff / 86400));
     diff %= 86400;
     setHours(Math.floor(diff / 3600));
     diff %= 3600;
-    setMinutes(Math.ceil(diff / 60));
-  }, [deadline, fastRefresh]);
+    setMinutes(Math.floor(diff / 60));
+    diff %= 60;
+    setSeconds(diff);
+  }, [deadline, timerRefresh]);
 
   const addLeadingZeros = (value) => {
     value = String(value);
@@ -41,6 +44,12 @@ export const Countdown = ({ deadline }) => {
         <span className="col-element">
           <p className="number">{addLeadingZeros(minutes)}</p>
           <p className="text">{minutes === 1 ? "Minute" : "Minutes"}</p>
+        </span>
+      </span>
+      <span className="col">
+        <span className="col-element">
+          <p className="number">{addLeadingZeros(seconds)}</p>
+          <p className="text">{seconds === 1 ? "Second" : "Seconds"}</p>
         </span>
       </span>
       <p className="until">until launch</p>
