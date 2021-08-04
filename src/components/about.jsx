@@ -1,4 +1,8 @@
 export const About = (props) => {
+  const indexes = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18,
+  ];
+
   return (
     <div id="about">
       <div className="container">
@@ -13,15 +17,13 @@ export const About = (props) => {
           className="col-md-12 carousel"
           data-flickity='{"wrapAround": true}'
         >
-          <img src="img/bears/1.png" alt="" />
-          <img src="img/bears/2.png" alt="" />
-          <img src="img/bears/3.png" alt="" />
-          <img src="img/bears/4.png" alt="" />
-          <img src="img/bears/5.png" alt="" />
-          <img src="img/bears/6.png" alt="" />
-          <img src="img/bears/7.png" alt="" />
-          <img src="img/bears/8.png" alt="" />
-          <img src="img/bears/9.png" alt="" />
+          {indexes.map((index) => (
+            <img
+              key={"" + index}
+              src={`img/bears/carousel/${index}.png`}
+              alt=""
+            />
+          ))}
         </div>
       </div>
     </div>

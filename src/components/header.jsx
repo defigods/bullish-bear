@@ -16,7 +16,6 @@ const MAX_COUNT = 15;
 const indexes = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 let sets = [];
 let lastIndex;
-let count = 10;
 
 export const Header = (props) => {
   const { fastRefresh, randomRefresh } = useRefresh();
@@ -24,6 +23,7 @@ export const Header = (props) => {
   const price = usePrice();
   const totalSupply = useTotalSupply();
 
+  const [count, setCount] = useState(10);
   const [onSale, setSale] = useState(false);
   const [isLoading, setLoading] = useState(true);
   const [isMinting, setMinting] = useState(false);
@@ -58,13 +58,12 @@ export const Header = (props) => {
     element.classList.add("fade-out");
     element.addEventListener("transitionend", function x() {
       element.removeEventListener("transitionend", x);
-      element.src = `img/bears/${count}.png`;
+      element.src = `img/bears/random/${count}.png`;
       element.classList.remove("fade-out");
       element.classList.add("fade-in");
     });
     indexes[index] = count;
-    count++;
-    if (count > MAX_COUNT) count = 1;
+    setCount(count < MAX_COUNT ? count + 1 : 1);
   }, [randomRefresh]);
 
   const handleClose = () => setMinting(false);
@@ -136,15 +135,15 @@ export const Header = (props) => {
             </div>
           </div>
           <div className="col-xs-12 col-md-6 random">
-            <img src="img/bears/1.png" className="col-md-4" alt="" />
-            <img src="img/bears/2.png" className="col-md-4" alt="" />
-            <img src="img/bears/3.png" className="col-md-4" alt="" />
-            <img src="img/bears/4.png" className="col-md-4" alt="" />
-            <img src="img/bears/5.png" className="col-md-4" alt="" />
-            <img src="img/bears/6.png" className="col-md-4" alt="" />
-            <img src="img/bears/7.png" className="col-md-4" alt="" />
-            <img src="img/bears/8.png" className="col-md-4" alt="" />
-            <img src="img/bears/9.png" className="col-md-4" alt="" />
+            <img src="img/bears/random/1.png" className="col-md-4" alt="" />
+            <img src="img/bears/random/2.png" className="col-md-4" alt="" />
+            <img src="img/bears/random/3.png" className="col-md-4" alt="" />
+            <img src="img/bears/random/4.png" className="col-md-4" alt="" />
+            <img src="img/bears/random/5.png" className="col-md-4" alt="" />
+            <img src="img/bears/random/6.png" className="col-md-4" alt="" />
+            <img src="img/bears/random/7.png" className="col-md-4" alt="" />
+            <img src="img/bears/random/8.png" className="col-md-4" alt="" />
+            <img src="img/bears/random/9.png" className="col-md-4" alt="" />
           </div>
         </div>
       </div>
