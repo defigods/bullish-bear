@@ -10,22 +10,29 @@ const tokenContract = new web3.eth.Contract(
   "0x33d15e8a4e626f8d6ef821a6c1e22bccae20a041"
 );
 
-export const useAccount = () => {
-  const [account, setAccount] = useState("");
+export const connectWithMetamask = async (onAccountSet) => {
+  const accounts = await window.ethereum.request({
+    method: "eth_requestAccounts",
+  });
+  if (accounts.length > 0) onAccountSet(accounts[0]);
+};
 
-  const fetch = async () => {
-    if (typeof window.ethereum === "undefined") {
-      console.error("Metamask is not installed!");
-      return;
-    }
-    const accounts = await window.ethereum.request({
-      method: "eth_requestAccounts",
-    });
-    if (accounts.length > 0) setAccount(accounts[0]);
-  };
-  fetch();
+export const useChainId = () => {
+  const [chainId, setChainId] = useState("");
 
-  return account;
+  useEffect(() => {
+    const fetch = async () => {
+      const _chainId = await window.ethereum.request({ method: "eth_chainId" });
+      setChainId(_chainId.replace("0x", ""));
+    };
+    fetch();
+  }, []);
+
+  window.ethereum.on("chainChanged", (_chainId) => {
+    setChainId(_chainId.replace("0x", ""));
+  });
+
+  return chainId;
 };
 
 export const useTotalSupply = () => {

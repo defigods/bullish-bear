@@ -1,9 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useState, useEffect } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
-  useAccount,
+  connectWithMetamask,
   useTotalSupply,
+  useChainId,
   usePrice,
   mintNFTs,
 } from "../data/contract";
@@ -11,6 +14,15 @@ import { useRefresh } from "../data/utils";
 import { Countdown } from "./counter";
 import { MintDialog } from "./minting";
 
+const TOAST_OPTIONS = {
+  position: "top-center",
+  autoClose: 5000,
+  hideProgressBar: true,
+  closeOnClick: true,
+  pauseOnHover: false,
+  draggable: false,
+  progress: 0,
+};
 const DEADLINE = new Date("2021-08-09T16:00:00.000-04:00");
 const MAX_COUNT = 15;
 const indexes = [1, 2, 3, 4, 5, 6, 7, 8, 9];
@@ -18,24 +30,33 @@ let sets = [];
 let lastIndex;
 
 export const Header = (props) => {
-  const { fastRefresh, randomRefresh } = useRefresh();
-  const account = useAccount();
+  const { timerRefresh, randomRefresh } = useRefresh();
+  const chainId = useChainId();
   const price = usePrice();
   const totalSupply = useTotalSupply();
+  const isMetamaskEnabled = typeof window.ethereum !== "undefined";
 
+  const [account, setAccount] = useState("");
   const [count, setCount] = useState(10);
   const [onSale, setSale] = useState(false);
   const [isLoading, setLoading] = useState(true);
   const [isMinting, setMinting] = useState(false);
-  const [isConfirming, setConfirming] = useState(false);
 
   useEffect(() => {
     if (price.length > 0 && totalSupply.length > 0) setLoading(false);
-  }, [price, totalSupply, account]);
+  }, [price, totalSupply]);
 
   useEffect(() => {
-    if (DEADLINE <= Date.now()) setSale(true);
-  }, [fastRefresh]);
+    if (!onSale && DEADLINE <= Date.now()) {
+      setSale(true);
+      if (chainId !== "1") {
+        toast.info(
+          "Current network is not the target network. Switch to mainnet!",
+          TOAST_OPTIONS
+        );
+      }
+    } else if (onSale && DEADLINE > Date.now()) setSale(false);
+  }, [timerRefresh]);
 
   useEffect(() => {
     let index;
@@ -68,20 +89,29 @@ export const Header = (props) => {
 
   const handleClose = () => setMinting(false);
 
-  const handleMint = () => setMinting(true);
+  const handleMint = async () => {
+    if (chainId !== "1") {
+      toast.info(
+        "Current network is not the target network. Switch to mainnet!",
+        TOAST_OPTIONS
+      );
+    } else {
+      await connectWithMetamask((acc) => {
+        setAccount(acc);
+        setMinting(true);
+      });
+    }
+  };
 
   const onMint = (count) => {
     mintNFTs(account, count, price)
-      .on("transactionHash", () => {
-        setConfirming(true);
-        setMinting(false);
-      })
-      .on("receipt", () => {
-        setConfirming(false);
-      })
+      .on("transactionHash", () => setMinting(false))
+      .on("receipt", () =>
+        toast.success("Bears minted successfully", TOAST_OPTIONS)
+      )
       .on("error", () => {
         setMinting(false);
-        setConfirming(false);
+        toast.error("Bears not minted. Errors occurred", TOAST_OPTIONS);
       });
   };
 
@@ -124,7 +154,9 @@ export const Header = (props) => {
                   </div>
                   <a
                     onClick={handleMint}
-                    className="btn btn-mint btn-lg page-scroll"
+                    className={`btn btn-mint btn-lg page-scroll ${
+                      isMetamaskEnabled ? "" : "btn-disabled"
+                    }`}
                   >
                     Mint
                   </a>
@@ -154,6 +186,7 @@ export const Header = (props) => {
           max={Math.min(20, 10000 - totalSupply)}
         />
       )}
+      <ToastContainer />
     </div>
   );
 };

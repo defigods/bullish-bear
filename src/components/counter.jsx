@@ -31,25 +31,25 @@ export const Countdown = ({ deadline }) => {
       <span className="col">
         <span className="col-element">
           <p className="number">{addLeadingZeros(days)}</p>
-          <p className="text">{days === 1 ? "Day" : "Days"}</p>
+          <p className="text">{days < 2 ? "Day" : "Days"}</p>
         </span>
       </span>
       <span className="col">
         <span className="col-element">
           <p className="number">{addLeadingZeros(hours)}</p>
-          <p className="text">{hours === 1 ? "Hour" : "Hours"}</p>
+          <p className="text">{hours < 2 ? "Hour" : "Hours"}</p>
         </span>
       </span>
       <span className="col">
         <span className="col-element">
           <p className="number">{addLeadingZeros(minutes)}</p>
-          <p className="text">{minutes === 1 ? "Minute" : "Minutes"}</p>
+          <p className="text">{minutes < 2 ? "Minute" : "Minutes"}</p>
         </span>
       </span>
       <span className="col">
         <span className="col-element">
           <p className="number">{addLeadingZeros(seconds)}</p>
-          <p className="text">{seconds === 1 ? "Second" : "Seconds"}</p>
+          <p className="text">{seconds < 2 ? "Second" : "Seconds"}</p>
         </span>
       </span>
       <p className="until">until launch</p>
