@@ -139,6 +139,11 @@ a:focus,
   align-items: center;
   justify-content: center;
 }
+#header span {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 700;
+}
 #header .info-inner {
   font-size: 20px;
   line-height: 20px;

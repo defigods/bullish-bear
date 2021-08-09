@@ -13,6 +13,7 @@ export const MintDialog = (props) => {
       className="dialog"
       bodyOpenClassName="dialog-body"
       overlayClassName="overlay"
+      ariaHideApp={false}
     >
       <div id="minting">
         <div>

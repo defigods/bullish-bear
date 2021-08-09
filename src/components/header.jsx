@@ -16,14 +16,14 @@ import { MintDialog } from "./minting";
 
 const TOAST_OPTIONS = {
   position: "top-center",
-  autoClose: 5000,
+  autoClose: 3000,
   hideProgressBar: true,
   closeOnClick: true,
   pauseOnHover: false,
   draggable: false,
-  progress: 0,
 };
-const DEADLINE = new Date("2021-08-09T16:00:00.000-04:00");
+const DEADLINE = new Date("2021-08-14T16:00:00.000-04:00");
+const TARGET_NETWORK = "4";
 const MAX_COUNT = 15;
 const indexes = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 let sets = [];
@@ -31,10 +31,6 @@ let lastIndex;
 
 export const Header = (props) => {
   const { timerRefresh, randomRefresh } = useRefresh();
-  const chainId = useChainId();
-  const price = usePrice();
-  const totalSupply = useTotalSupply();
-  const isMetamaskEnabled = typeof window.ethereum !== "undefined";
 
   const [account, setAccount] = useState("");
   const [count, setCount] = useState(10);
@@ -42,20 +38,22 @@ export const Header = (props) => {
   const [isLoading, setLoading] = useState(true);
   const [isMinting, setMinting] = useState(false);
 
+  const isMetamaskEnabled = typeof window.ethereum !== "undefined";
+  const chainId = useChainId(isMetamaskEnabled && onSale);
+  const totalSupply = useTotalSupply(
+    isMetamaskEnabled && onSale && chainId === TARGET_NETWORK
+  );
+  const price = usePrice(
+    isMetamaskEnabled && onSale && chainId === TARGET_NETWORK
+  );
+
   useEffect(() => {
     if (price.length > 0 && totalSupply.length > 0) setLoading(false);
   }, [price, totalSupply]);
 
   useEffect(() => {
-    if (!onSale && DEADLINE <= Date.now()) {
-      setSale(true);
-      if (chainId !== "1") {
-        toast.info(
-          "Current network is not the target network. Switch to mainnet!",
-          TOAST_OPTIONS
-        );
-      }
-    } else if (onSale && DEADLINE > Date.now()) setSale(false);
+    if (!onSale && DEADLINE <= Date.now()) setSale(true);
+    else if (onSale && DEADLINE > Date.now()) setSale(false);
   }, [timerRefresh]);
 
   useEffect(() => {
@@ -90,16 +88,10 @@ export const Header = (props) => {
   const handleClose = () => setMinting(false);
 
   const handleMint = async () => {
-    if (chainId !== "1") {
-      toast.info(
-        "Current network is not the target network. Switch to mainnet!",
-        TOAST_OPTIONS
-      );
-    } else {
-      await connectWithMetamask((acc) => {
-        setAccount(acc);
-        setMinting(true);
-      });
+    const acc = await connectWithMetamask();
+    if (acc) {
+      setAccount(acc);
+      setMinting(true);
     }
   };
 
@@ -107,7 +99,7 @@ export const Header = (props) => {
     mintNFTs(account, count, price)
       .on("transactionHash", () => setMinting(false))
       .on("receipt", () =>
-        toast.success("Bears minted successfully", TOAST_OPTIONS)
+        toast.info("Bears minted successfully", TOAST_OPTIONS)
       )
       .on("error", () => {
         setMinting(false);
@@ -129,7 +121,18 @@ export const Header = (props) => {
               dangerouslySetInnerHTML={{ __html: props.data.content }}
             />
             <div className="info-outer">
-              {onSale ? (
+              {!isMetamaskEnabled ? (
+                <span className="metamask">
+                  Please install Metamask for proper use of Bullish Bears.
+                </span>
+              ) : !onSale ? (
+                <Countdown deadline={DEADLINE} />
+              ) : chainId !== TARGET_NETWORK ? (
+                <span className="metamask">
+                  Current network is not the target network. Please switch to
+                  mainnet.
+                </span>
+              ) : (
                 <div className="info-inner text-center">
                   <p>Price {isLoading ? "0.00" : price} ETH</p>
                   <p>
@@ -161,8 +164,6 @@ export const Header = (props) => {
                     Mint
                   </a>
                 </div>
-              ) : (
-                <Countdown deadline={DEADLINE} />
               )}
             </div>
           </div>
