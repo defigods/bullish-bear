@@ -121,12 +121,12 @@ export const Header = (props) => {
               dangerouslySetInnerHTML={{ __html: props.data.content }}
             />
             <div className="info-outer">
-              {!isMetamaskEnabled ? (
+              {!onSale ? (
+                <Countdown deadline={DEADLINE} />
+              ) : !isMetamaskEnabled ? (
                 <span className="metamask">
                   Please install Metamask for proper use of Bullish Bears.
                 </span>
-              ) : !onSale ? (
-                <Countdown deadline={DEADLINE} />
               ) : chainId !== TARGET_NETWORK ? (
                 <span className="metamask">
                   Current network is not the target network. Please switch to
