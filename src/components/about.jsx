@@ -14,7 +14,7 @@ export const About = (props) => {
         </div>
         <div
           className="col-md-12 carousel"
-          data-flickity='{"wrapAround": true}'
+          data-flickity='{"wrapAround": true, "autoPlay": true}'
         >
           {indexes.map((index) => (
             <img
