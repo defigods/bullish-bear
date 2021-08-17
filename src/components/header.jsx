@@ -22,7 +22,7 @@ const TOAST_OPTIONS = {
   pauseOnHover: false,
   draggable: false,
 };
-const DEADLINE = new Date("2021-08-14T16:00:00.000-04:00");
+const DEADLINE = new Date("2021-08-17T16:00:00.000-04:00");
 const TARGET_NETWORK = "4";
 const MAX_COUNT = 15;
 const indexes = [1, 2, 3, 4, 5, 6, 7, 8, 9];
