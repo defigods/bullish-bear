@@ -69,7 +69,7 @@ export const usePrice = (isReady) => {
 
 export const mintNFTs = (account, count, price) =>
   getTokenContract()
-    .methods.mintApes(count)
+    .methods.mintBears(count)
     .send({
       from: account,
       value: new BigNumber(price).times(Math.pow(10, 18)).times(count),
@@ -80,6 +80,6 @@ const getTokenContract = () => {
 
   return new web3.eth.Contract(
     tokenAbi,
-    "0x33d15e8a4e626f8d6ef821a6c1e22bccae20a041"
+    "0xA825Cb5b7546C0898B04a2f7e63f53efb6769D4b"
   );
 };

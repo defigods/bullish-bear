@@ -23,7 +23,7 @@ const TOAST_OPTIONS = {
   draggable: false,
 };
 const DEADLINE = new Date("2021-08-17T16:00:00.000-04:00");
-const TARGET_NETWORK = "4";
+const TARGET_NETWORK = "1";
 const MAX_COUNT = 15;
 const indexes = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 let sets = [];
@@ -184,7 +184,7 @@ export const Header = (props) => {
         <MintDialog
           onMint={onMint}
           handleClose={handleClose}
-          max={Math.min(20, 10000 - totalSupply)}
+          max={Math.min(15, 10000 - totalSupply)}
         />
       )}
       <ToastContainer />
