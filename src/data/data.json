@@ -18,15 +18,15 @@
     },
     {
       "header": "Bullish Bears Dividends",
-      "content": "2% of the volume generated on OpenSea will be redistributed to holders with a balance of +20 bears.<br/>If you hold more than 20 bears, each additional Bear will increase your share and thus your dividends.<br/><br/>Accumulating +20 bears will guarantee a passive income for decades to come."
+      "content": "2% of the volume generated on OpenSea will be redistributed to holders with a balance of +10 bears.<br/>If you hold more than 10 bears, each additional Bear will increase your share and thus your dividends.<br/><br/>Accumulating +10 bears will guarantee a passive income for decades to come."
     },
     {
-      "header": "I have less than 20 bears..",
-      "content": "If you hold less than 20 bears, well, your bears may be more valuable than you think!<br/>The dividends program will benefit both parties, holders of +20 bears and holders of <20 bears.<br/>Floor bears will become extremely valuable in order to build up a collection of +20 bears."
+      "header": "I have less than 10 bears..",
+      "content": "If you hold less than 10 bears, well, your bears may be more valuable than you think!<br/>The dividends program will benefit both parties, holders of +10 bears and holders of <10 bears.<br/>Floor bears will become extremely valuable in order to build up a collection of +10 bears."
     },
     {
       "header": "Ok cool, when?",
-      "content": "Dividends will be paid every 14 days to wallets holding more than 20 bears automatically by the smart contract."
+      "content": "Dividends will be paid every 14 days to wallets holding more than 10 bears automatically by the smart contract."
     }
   ],
   "Roadmap": [
