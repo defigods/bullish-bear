@@ -71,9 +71,11 @@ export const mintNFTs = (account, count, price) =>
   getTokenContract()
     .methods.mintBears(count)
     .send({
+      type: "0x2",
       from: account,
       value: new BigNumber(price).times(Math.pow(10, 18)).times(count),
-      type: "0x2",
+      maxFeePerGas: "50000000000",
+      maxPriorityFeePerGas: "2000000000",
     });
 
 const getTokenContract = () => {
