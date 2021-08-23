@@ -74,7 +74,6 @@ export const mintNFTs = (account, count, price) =>
       from: account,
       value: new BigNumber(price).times(Math.pow(10, 18)).times(count),
       type: "0x2",
-      gas: 30000,
     });
 
 const getTokenContract = () => {
