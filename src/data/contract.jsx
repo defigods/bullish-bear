@@ -33,20 +33,12 @@ export const useChainId = (isReady) => {
   return chainId;
 };
 
-export const useTotalSupply = (isReady) => {
-  const { fastRefresh } = useRefresh();
-  const [totalSupply, setTotalSupply] = useState("");
-
-  useEffect(() => {
-    const fetch = async () => {
-      const supply = await getTokenContract().methods.totalSupply().call();
-      setTotalSupply(supply);
-    };
-
-    if (isReady) fetch();
-  }, [fastRefresh, isReady]);
-
-  return totalSupply;
+export const isFree = async (account) => {
+  const isWhitelisted = await getTokenContract()
+    .methods.whitelistedRecipients(account)
+    .call();
+  const balance = await getTokenContract().methods.balanceOf(account, 1).call();
+  return isWhitelisted && balance === 0;
 };
 
 export const usePrice = (isReady) => {
@@ -69,13 +61,10 @@ export const usePrice = (isReady) => {
 
 export const mintNFTs = (account, count, price) =>
   getTokenContract()
-    .methods.mintBears(count)
+    .methods.mintNFTs()
     .send({
-      type: "0x2",
       from: account,
       value: new BigNumber(price).times(Math.pow(10, 18)).times(count),
-      maxFeePerGas: "50000000000",
-      maxPriorityFeePerGas: "2000000000",
     });
 
 const getTokenContract = () => {
@@ -83,6 +72,6 @@ const getTokenContract = () => {
 
   return new web3.eth.Contract(
     tokenAbi,
-    "0xA825Cb5b7546C0898B04a2f7e63f53efb6769D4b"
+    "0x5704b2f6FF802Bc3dD5dcD238c9753A94af74D4A"
   );
 };
